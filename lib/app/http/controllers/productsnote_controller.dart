@@ -25,7 +25,6 @@ class ProductnotesController extends Controller {
         );
       }
 
-      // Validasi dan konversi note_date
       final noteDate = DateTime.tryParse(body['note_date']);
       if (noteDate == null) {
         return Response.json(
@@ -36,7 +35,6 @@ class ProductnotesController extends Controller {
         );
       }
 
-      // Buat instance Productnotes
       final productNote = Productnotes()
         ..noteId = body['note_id']
         ..prodId = body['prod_id']
@@ -78,7 +76,6 @@ class ProductnotesController extends Controller {
     try {
       final body = await request.body;
 
-      // Validasi field yang diperlukan
       if (body['note_id'] == null ||
           body['prod_id'] == null ||
           body['note_text'] == null ||
@@ -88,7 +85,6 @@ class ProductnotesController extends Controller {
         );
       }
 
-      // Validasi dan konversi note_date
       final noteDate = DateTime.tryParse(body['note_date']);
       if (noteDate == null) {
         return Response.json(
@@ -99,14 +95,12 @@ class ProductnotesController extends Controller {
         );
       }
 
-      // Buat instance Productnotes
       final productNote = Productnotes()
         ..noteId = body['note_id']
         ..prodId = body['prod_id']
         ..noteText = body['note_text']
         ..noteDate = noteDate;
 
-      // Update ke database
       final updated = await Productnotes()
           .query()
           .where('note_id', '=', productNote.noteId)
@@ -114,7 +108,7 @@ class ProductnotesController extends Controller {
         'prod_id': productNote.prodId,
         'note_text': productNote.noteText,
         'note_date':
-            productNote.noteDate!.toIso8601String(), // Formatkan ke ISO 8601
+            productNote.noteDate!.toIso8601String(), 
       });
 
       if (updated == 0) {
@@ -127,7 +121,6 @@ class ProductnotesController extends Controller {
 
       return Response.json({'success': true, 'data': productNote.toMap()});
     } catch (e, stackTrace) {
-      // Tambahkan log error untuk debugging
       print('Error in update: $e');
       print(stackTrace);
 

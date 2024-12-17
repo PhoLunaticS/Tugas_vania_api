@@ -1,7 +1,6 @@
 import 'package:vania/vania.dart';
 
 class Customers extends Model {
-  // Properti sesuai dengan kolom dalam tabel
   String? custId;
   String? custName;
   String? custAddress;
@@ -16,7 +15,6 @@ class Customers extends Model {
     super.table('customers');
   }
 
-  // Mengonversi dari Map ke objek Customers
   Customers.fromMap(Map<String, dynamic> map) {
     custId = map['cust_id'];
     custName = map['cust_name'];
@@ -28,7 +26,6 @@ class Customers extends Model {
     custTelp = map['cust_telp'];
   }
 
-  // Mengonversi dari objek Customers ke Map
   Map<String, dynamic> toMap() {
     return {
       'cust_id': custId,

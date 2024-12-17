@@ -1,18 +1,15 @@
 import 'package:vania/vania.dart';
 
 class Productnotes extends Model {
-  // Properti sesuai dengan kolom dalam tabel
-  String? noteId; // ID catatan produk
-  String? prodId; // ID produk yang terkait
-  DateTime? noteDate; // Tanggal catatan
-  String? noteText; // Teks catatan
+  String? noteId; 
+  String? prodId; 
+  DateTime? noteDate; 
+  String? noteText;
 
-  // Constructor
   Productnotes() {
     super.table('productnotes');
   }
 
-  // Mengonversi dari Map ke objek Productnotes
   Productnotes.fromMap(Map<String, dynamic> map) {
     noteId = map['note_id'];
     prodId = map['prod_id'];
@@ -21,13 +18,12 @@ class Productnotes extends Model {
     noteText = map['note_text'];
   }
 
-  // Mengonversi dari objek Productnotes ke Map
   Map<String, dynamic> toMap() {
     return {
       'note_id': noteId,
       'prod_id': prodId,
       'note_date':
-          noteDate?.toIso8601String(), // Mengonversi DateTime ke String
+          noteDate?.toIso8601String(),
       'note_text': noteText,
     };
   }

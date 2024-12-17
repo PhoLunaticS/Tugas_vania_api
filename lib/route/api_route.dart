@@ -5,7 +5,9 @@ import 'package:tugas_vania/app/http/controllers/vendors_controller.dart';
 import 'package:tugas_vania/app/http/controllers/products_controller.dart';
 import 'package:tugas_vania/app/http/controllers/orderitems_controller.dart';
 import 'package:tugas_vania/app/http/controllers/productsnote_controller.dart';
-
+import 'package:tugas_vania/app/http/controllers/auth_controller.dart';
+import 'package:tugas_vania/app/http/controllers/user.dart';
+import 'package:tugas_vania/app/http/middleware/authenticate.dart';
 class ApiRoute implements Route {
   @override
   void register() {
@@ -59,5 +61,18 @@ class ApiRoute implements Route {
     Router.get("/vendors/{id}", vendorsController.show);
     Router.put("/vendors/{id}", vendorsController.update);
     Router.delete("/vendors/{id}", vendorsController.destroy);
+
+  Router.group(() {
+      Router.post('register',
+          authController.register); // Gunakan instans authController
+      Router.post('login', authController.login);
+      Router.get('me', authController.me);
+    }, prefix: 'auth');
+    /// User
+    Router.group(() {
+      Router.patch('update-password',
+          userController.updatePassword); // Gunakan instans userController
+      Router.get('', userController.index);
+    }, prefix: 'user', middleware: [AuthenticateMiddleware()]);
   }
 }

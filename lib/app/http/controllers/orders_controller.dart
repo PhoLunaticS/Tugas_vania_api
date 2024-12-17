@@ -15,7 +15,6 @@ class OrdersController extends Controller {
     try {
       final body = await request.body;
 
-      // Validasi field yang diperlukan
       if (body['order_num'] == null ||
           body['cust_id'] == null ||
           body['order_date'] == null) {
@@ -24,7 +23,6 @@ class OrdersController extends Controller {
         );
       }
 
-      // Konversi order_date ke DateTime
       final orderDate = DateTime.tryParse(body['order_date']);
       if (orderDate == null) {
         return Response.json(
@@ -35,18 +33,16 @@ class OrdersController extends Controller {
         );
       }
 
-      // Buat instance Order
       final order = Orders()
         ..orderNum = body['order_num']
         ..custId = body['cust_id']
         ..orderDate = orderDate;
 
-      // Simpan ke database
       await order.query().insert({
         'order_num': order.orderNum,
         'cust_id': order.custId,
         'order_date':
-            order.orderDate!.toIso8601String(), // Gunakan operator `!` di sini
+            order.orderDate!.toIso8601String(), 
       });
 
       return Response.json({'success': true, 'data': order.toMap()});
@@ -75,7 +71,6 @@ class OrdersController extends Controller {
     try {
       final body = await request.body;
 
-      // Validasi order_date dan konversi ke DateTime
       final orderDate = DateTime.tryParse(body['order_date']);
       if (orderDate == null) {
         return Response.json(
@@ -86,20 +81,18 @@ class OrdersController extends Controller {
         );
       }
 
-      // Buat instance Order dengan data yang diupdate
       final order = Orders()
         ..orderNum = body['order_num']
         ..custId = body['cust_id']
         ..orderDate = orderDate;
 
-      // Update data dalam database
       final affectedRows = await Orders()
           .query()
           .where('order_num', '=', order.orderNum)
           .update({
         'cust_id': order.custId,
         'order_date':
-            order.orderDate!.toIso8601String(), // Konversi ke string ISO 8601
+            order.orderDate!.toIso8601String(), 
       });
 
       if (affectedRows == 0) {
